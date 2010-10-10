@@ -5,7 +5,7 @@ from django.contrib.auth.tests.forms import UserCreationFormTest, Authentication
 from django.contrib.auth.tests.remote_user \
         import RemoteUserTest, RemoteUserNoCreateTest, RemoteUserCustomTest
 from django.contrib.auth.tests.models import ProfileTestCase
-from django.contrib.auth.tests.tokens import TOKEN_GENERATOR_TESTS
+from django.contrib.auth.tests.tokens import TokenGeneratorTest
 from django.contrib.auth.tests.views \
         import PasswordResetTest, ChangePasswordTest, LoginTest, LogoutTest
 
@@ -13,5 +13,4 @@ from django.contrib.auth.tests.views \
 
 __test__ = {
     'BASIC_TESTS': BASIC_TESTS,
-    'TOKEN_GENERATOR_TESTS': TOKEN_GENERATOR_TESTS,
 }
