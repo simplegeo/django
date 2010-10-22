@@ -513,33 +513,6 @@ class FieldsTests(TestCase):
         self.assertRaisesErrorWithMessage(ValidationError, "[u'Enter a valid URL.']", f.clean, 'http://example.')
         self.assertRaisesErrorWithMessage(ValidationError, "[u'Enter a valid URL.']", f.clean, 'http://.com')
 
-    def test_urlfield_39(self):
-        f = URLField(verify_exists=True)
-        self.assertEqual(u'http://www.google.com/', f.clean('http://www.google.com')) # This will fail if there's no Internet connection
-        self.assertRaisesErrorWithMessage(ValidationError, "[u'Enter a valid URL.']", f.clean, 'http://example')
-        self.assertRaises(ValidationError, f.clean, 'http://www.broken.djangoproject.com') # bad domain
-        try:
-            f.clean('http://www.broken.djangoproject.com') # bad domain
-        except ValidationError, e:
-            self.assertEqual("[u'This URL appears to be a broken link.']", str(e))
-        self.assertRaises(ValidationError, f.clean, 'http://google.com/we-love-microsoft.html') # good domain, bad page
-        try:
-            f.clean('http://google.com/we-love-microsoft.html') # good domain, bad page
-        except ValidationError, e:
-            self.assertEqual("[u'This URL appears to be a broken link.']", str(e))
-        # Valid and existent IDN
-        self.assertEqual(u'http://\u05e2\u05d1\u05e8\u05d9\u05ea.idn.icann.org/', f.clean(u'http://עברית.idn.icann.org/'))
-        # Valid but non-existent IDN
-        try:
-            f.clean(u'http://broken.עברית.idn.icann.org/')
-        except ValidationError, e:
-            self.assertEqual("[u'This URL appears to be a broken link.']", str(e))
-
-    def test_urlfield_40(self):
-        f = URLField(verify_exists=True, required=False)
-        self.assertEqual(u'', f.clean(''))
-        self.assertEqual(u'http://www.google.com/', f.clean('http://www.google.com')) # This will fail if there's no Internet connection
-
     def test_urlfield_41(self):
         f = URLField(min_length=15, max_length=20)
         self.assertRaisesErrorWithMessage(ValidationError, "[u'Ensure this value has at least 15 characters (it has 13).']", f.clean, 'http://f.com')
