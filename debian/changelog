@@ -1,3 +1,12 @@
+python-django (1.2.3-1ubuntu0sg1) lucid; urgency=low
+
+  [ Ian Eure ]
+  * Commit changes resulting from build.
+
+  [ SimpleGeo Nerds ]
+
+ -- SimpleGeo Nerds <nerds@simplegeo.com>  Fri, 22 Oct 2010 18:47:48 +0000
+
 python-django (1.2.3-1ubuntu0sg0) unstable; urgency=low
 
   * Backported to Lucid.
