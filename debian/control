@@ -1,9 +1,8 @@
 Source: python-django
 Section: python
 Priority: optional
-Maintainer: Ubuntu Core Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-XSBC-Original-Maintainer: Chris Lamb <lamby@debian.org>
-Uploaders: Debian Python Modules Team <python-modules-team@lists.alioth.debian.org>, Raphaël Hertzog <hertzog@debian.org>
+Maintainer: SimpleGeo Nerds <nerds@simplegeo.com>
+Uploaders: Ian Eure <ian@simplegeo.com>
 Standards-Version: 3.9.1
 Build-Depends: debhelper (>= 7.0.50), python-support, python (>= 2.5) | python-sqlite, language-pack-en-base
 Build-Depends-Indep: python-sphinx, libjs-jquery

@@ -1,3 +1,9 @@
+python-django (1.2.3-1ubuntu0sg0) unstable; urgency=low
+
+  * Backported to Lucid.
+
+ -- Ian Eure <ian@simplegeo.com.com>  Fri, 22 Oct 2010 11:34:52 -0700
+
 python-django (1.2.3-1ubuntu0.1) maverick-security; urgency=low
 
   * SECURITY UPDATE: XSS in CSRF protections. New upstream release
