@@ -1,3 +1,25 @@
+python-django (1.2.3-1ubuntu0sg2) lucid; urgency=low
+
+  [ lukeplant ]
+  * Converted contrib/auth/tokens doctests to unittests.  We've always
+    said "no more" to doctests. git-svn-id:
+    http://code.djangoproject.com/svn/django/trunk@14100 bcc190cf-cafb-
+    0310-a4f2-bffc1f526a37
+
+  [ Alex ]
+  * Fix a security issue in the auth system. Disclosure and new release
+    forthcoming. git-svn-id:
+    http://code.djangoproject.com/svn/django/branches/releases/1.2.X@150
+    34 bcc190cf-cafb-0310-a4f2-bffc1f526a37
+  * Fix a security issue in the admin. Disclosure and new release
+    forthcoming. git-svn-id:
+    http://code.djangoproject.com/svn/django/branches/releases/1.2.X@150
+    33 bcc190cf-cafb-0310-a4f2-bffc1f526a37
+
+  [ SimpleGeo Nerds ]
+
+ -- SimpleGeo Nerds <nerds@simplegeo.com>  Wed, 02 Feb 2011 23:03:04 +0000
+
 python-django (1.2.3-1ubuntu0sg1) lucid; urgency=low
 
   [ Ian Eure ]
