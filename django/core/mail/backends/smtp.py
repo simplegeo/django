@@ -13,12 +13,20 @@ class EmailBackend(BaseEmailBackend):
     A wrapper that manages the SMTP network connection.
     """
     def __init__(self, host=None, port=None, username=None, password=None,
-                 use_tls=None, fail_silently=False, **kwargs):
+                 use_tls=None, fail_silently=False, from_host=None, **kwargs):
         super(EmailBackend, self).__init__(fail_silently=fail_silently)
         self.host = host or settings.EMAIL_HOST
         self.port = port or settings.EMAIL_PORT
         self.username = username or settings.EMAIL_HOST_USER
         self.password = password or settings.EMAIL_HOST_PASSWORD
+
+        # If from_host and settings.EMAIL_FROM_HOST are not specified,
+        # socket.getfqdn() gets used. For performance, we use the cached
+        # FQDN for from_host.
+        self.from_host = from_host or \
+                         settings.EMAIL_LOCAL_HOSTNAME or \
+                         DNS_NAME.get_fqdn()
+
         if use_tls is None:
             self.use_tls = settings.EMAIL_USE_TLS
         else:
@@ -35,10 +43,8 @@ class EmailBackend(BaseEmailBackend):
             # Nothing to do if the connection is already open.
             return False
         try:
-            # If local_hostname is not specified, socket.getfqdn() gets used.
-            # For performance, we use the cached FQDN for local_hostname.
             self.connection = smtplib.SMTP(self.host, self.port,
-                                           local_hostname=DNS_NAME.get_fqdn())
+                                           local_hostname=self.from_host)
             if self.use_tls:
                 self.connection.ehlo()
                 self.connection.starttls()

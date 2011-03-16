@@ -171,6 +171,9 @@ EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
 
+# Hostname to send in the EHLO message to the SMTP server.
+EMAIL_LOCAL_HOSTNAME = ''
+
 # List of strings representing installed apps.
 INSTALLED_APPS = ()
 

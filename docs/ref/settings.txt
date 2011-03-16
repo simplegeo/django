@@ -729,6 +729,14 @@ Whether to use a TLS (secure) connection when talking to the SMTP server.
 
 .. setting:: FILE_CHARSET
 
+EMAIL_LOCAL_HOSTNAME
+--------------------
+
+Default: ``''`` (Empty string)
+
+The hostname to send to the SMTP server in the EHLO command. If unset, a
+cached local DNS name from socket.getfqdn() is used.
+
 FILE_CHARSET
 ------------
 
