@@ -1,4 +1,10 @@
-python-django (1.2.3-1ubuntu0sg3) lucid; urgency=low
+python-django (1.3-1ubuntu0sg0) unstable; urgency=low
+
+  * New Django release 1.3
+
+ -- Jon Rohan <jon@simplegeo.com>  Wed, 3 Aug 2011 11:34:52 -0700
+ 
+ python-django (1.2.3-1ubuntu0sg3) lucid; urgency=low
 
   [ Jeremy Grosser ]
   * Patched to support EMAIL_LOCAL_HOSTNAME setting
