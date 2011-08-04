@@ -63,10 +63,6 @@ override_dh_install:
 
 override_dh_installdocs:
 	dh_installdocs
-	# Remove embedded copy of libjs-jquery
-	cd debian/python-django-doc/usr/share/doc/python-django-doc/html/_static \
-		&& rm jquery.js \
-		&& ln -s ../../../../javascript/jquery/jquery.js .
 
 override_dh_compress:
 	dh_compress -X.js -Xobjects.inv
