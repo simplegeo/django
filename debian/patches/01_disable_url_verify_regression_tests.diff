@@ -5,19 +5,18 @@ Comment:
  .
  This is a Debian specific patch.
 
-Index: python-django-1.2.3/tests/regressiontests/forms/fields.py
-===================================================================
---- python-django-1.2.3.orig/tests/regressiontests/forms/fields.py	2010-10-12 12:34:43.000000000 -0500
-+++ python-django-1.2.3/tests/regressiontests/forms/fields.py	2010-10-12 12:35:03.000000000 -0500
-@@ -513,33 +513,6 @@
+--- a/tests/regressiontests/forms/tests/fields.py
++++ b/tests/regressiontests/forms/tests/fields.py
+@@ -557,27 +557,6 @@
          self.assertRaisesErrorWithMessage(ValidationError, "[u'Enter a valid URL.']", f.clean, 'http://example.')
          self.assertRaisesErrorWithMessage(ValidationError, "[u'Enter a valid URL.']", f.clean, 'http://.com')
  
--    def test_urlfield_39(self):
+-    def test_urlfield_3(self):
 -        f = URLField(verify_exists=True)
 -        self.assertEqual(u'http://www.google.com/', f.clean('http://www.google.com')) # This will fail if there's no Internet connection
 -        self.assertRaisesErrorWithMessage(ValidationError, "[u'Enter a valid URL.']", f.clean, 'http://example')
 -        self.assertRaises(ValidationError, f.clean, 'http://www.broken.djangoproject.com') # bad domain
+-        self.assertRaises(ValidationError, f.clean, 'http://qa-dev.w3.org/link-testsuite/http.php?code=405') # Method not allowed
 -        try:
 -            f.clean('http://www.broken.djangoproject.com') # bad domain
 -        except ValidationError, e:
@@ -27,34 +26,52 @@ Index: python-django-1.2.3/tests/regressiontests/forms/fields.py
 -            f.clean('http://google.com/we-love-microsoft.html') # good domain, bad page
 -        except ValidationError, e:
 -            self.assertEqual("[u'This URL appears to be a broken link.']", str(e))
--        # Valid and existent IDN
--        self.assertEqual(u'http://\u05e2\u05d1\u05e8\u05d9\u05ea.idn.icann.org/', f.clean(u'http://עברית.idn.icann.org/'))
--        # Valid but non-existent IDN
--        try:
--            f.clean(u'http://broken.עברית.idn.icann.org/')
--        except ValidationError, e:
--            self.assertEqual("[u'This URL appears to be a broken link.']", str(e))
 -
--    def test_urlfield_40(self):
+-    def test_urlfield_4(self):
 -        f = URLField(verify_exists=True, required=False)
 -        self.assertEqual(u'', f.clean(''))
 -        self.assertEqual(u'http://www.google.com/', f.clean('http://www.google.com')) # This will fail if there's no Internet connection
 -
-     def test_urlfield_41(self):
+     def test_urlfield_5(self):
          f = URLField(min_length=15, max_length=20)
          self.assertRaisesErrorWithMessage(ValidationError, "[u'Ensure this value has at least 15 characters (it has 13).']", f.clean, 'http://f.com')
-Index: python-django-1.2.3/tests/modeltests/validation/tests.py
-===================================================================
---- python-django-1.2.3.orig/tests/modeltests/validation/tests.py	2010-10-12 12:35:24.000000000 -0500
-+++ python-django-1.2.3/tests/modeltests/validation/tests.py	2010-10-12 12:35:29.000000000 -0500
-@@ -56,10 +56,6 @@
-         mtv = ModelToValidate(number=10, name='Some Name', url='http://google.com/we-love-microsoft.html')
-         self.assertFieldFailsValidationWithMessage(mtv.full_clean, 'url', [u'This URL appears to be a broken link.'])
+@@ -625,18 +604,6 @@
+         except ValidationError, e:
+             self.assertEqual("[u'This URL appears to be a broken link.']", str(e))
  
--    def test_correct_url_value_passes(self):
--        mtv = ModelToValidate(number=10, name='Some Name', url='http://www.djangoproject.com/')
--        self.assertEqual(None, mtv.full_clean()) # This will fail if there's no Internet connection
+-    def test_urlfield_10(self):
+-        # UTF-8 char in path, enclosed by a monkey-patch to make sure
+-        # the encoding is passed to urllib2.urlopen
+-        f = URLField(verify_exists=True)
+-        try:
+-            _orig_urlopen = urllib2.urlopen
+-            urllib2.urlopen = lambda req: True
+-            url = u'http://t\xfcr.djangoproject.com/'
+-            self.assertEqual(url, f.clean(url))
+-        finally:
+-            urllib2.urlopen = _orig_urlopen
 -
-     def test_text_greater_that_charfields_max_length_eaises_erros(self):
-         mtv = ModelToValidate(number=10, name='Some Name'*100)
-         self.assertFailsValidation(mtv.full_clean, ['name',])
+     # BooleanField ################################################################
+ 
+     def test_booleanfield_1(self):
+
+--- a/tests/regressiontests/forms/tests/error_messages.py
++++ b/tests/regressiontests/forms/tests/error_messages.py
+@@ -139,17 +139,6 @@
+         self.assertFormErrors([u'EMPTY FILE'], f.clean, SimpleUploadedFile('name', None))
+         self.assertFormErrors([u'EMPTY FILE'], f.clean, SimpleUploadedFile('name', ''))
+ 
+-    def test_urlfield(self):
+-        e = {
+-            'required': 'REQUIRED',
+-            'invalid': 'INVALID',
+-            'invalid_link': 'INVALID LINK',
+-        }
+-        f = URLField(verify_exists=True, error_messages=e)
+-        self.assertFormErrors([u'REQUIRED'], f.clean, '')
+-        self.assertFormErrors([u'INVALID'], f.clean, 'abc.c')
+-        self.assertFormErrors([u'INVALID LINK'], f.clean, 'http://www.broken.djangoproject.com')
+-
+     def test_booleanfield(self):
+         e = {
+             'required': 'REQUIRED',
